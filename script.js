@@ -3,7 +3,6 @@ $(document).ready(function(){
 var authKey = URL.substr(URL.indexOf("=") + 1);
 console.log("The auth key is " + authKey);
 
-
  $.ajax({
       type: "GET",
       dataType: "jsonp",
