@@ -3,7 +3,16 @@ $(document).ready(function(){
 var authKey = URL.substr(URL.indexOf("=") + 1);
 console.log("The auth key is " + authKey);
 
-var followers = $.get("https://api.instagram.com/v1/users/self/follows?access_token=ACCESS-TOKEN", function(data){
-	console.log(followers);
-});
+
+ $.ajax({
+      type: "GET",
+      dataType: "jsonp",
+      cache: false,
+      url: "https://api.instagram.com/v1/users/self/follows?access_token="+authKey,
+      success: function(data) {
+        // placing the images on the page
+        }
+      }
+    });
+
 });
