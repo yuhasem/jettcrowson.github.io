@@ -11,7 +11,7 @@ console.log("The auth key is " + authKey);
       success: function(data) {
         // placing the images on the page
         }
-      }
+      })
     });
 
 });
