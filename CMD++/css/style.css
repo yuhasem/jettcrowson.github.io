@@ -1,15 +1,33 @@
-#cmdWindow{
-  width:700px;
-  height:500px;
-  background-color:black;
-  color:white;
+#cmdWindow {
+  width: 700px;
+  height: 500px;
+  background-color: black;
+  color: white;
   font-family: "Courier New", Courier, monospace;
-  text-indent:15px;
+  text-indent: 15px;
 }
-#stats{
-width:700px;
-height:30px;
-background-color:black;
-    color:white;
+
+#stats {
+  width: 700px;
+  height: 30px;
+  background-color: black;
+  color: white;
   font-family: "Courier New", Courier, monospace;
+}
+
+#input {
+  width: 700px;
+  height: 30px;
+  border: 0px;
+  border-top: 1px solid white;
+  background-color: black;
+  color: white;
+  font-family: "Courier New", Courier, monospace;
+    text-indent: 15px;
+}
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
 }
