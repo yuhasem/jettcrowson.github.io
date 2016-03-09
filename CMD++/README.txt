@@ -1,3 +1,3 @@
-A Pen created at CodePen.io. You can find this one at http://codepen.io/jettc/pen/EKPOaV.
+CMD++ Game
 
- 
+Feel free to improve this readme
