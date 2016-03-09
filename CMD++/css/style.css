@@ -38,3 +38,6 @@ textarea:focus,
 button:focus {
   outline: none;
 }
+#dataCount{
+  display:inline;
+}
