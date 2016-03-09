@@ -72,4 +72,5 @@ $(document).keypress(function(e) {
 $(document).ready(function() {
   CMD.respond("Welcome to CMD++");
   CMD.respond("Your goal here is to mine data.");
+  CMD.respond("Type 'help' to get started.");
 });
