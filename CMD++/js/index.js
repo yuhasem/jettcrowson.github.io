@@ -6,7 +6,7 @@ TODO List:
 //All game values and functions will be stored here.
 var CMD = {
   //The currency variables
-  data: 0,
+  data: 19,
   money: 0,
   increment: 1,
   autoIncrement: 0,
@@ -16,6 +16,7 @@ var CMD = {
     $("#responses").append("<tr class='response'><td class='response'>> " + text + "</td></tr>");
   },
   gameLoop: setInterval(function(){
+    CMD.checkGoal();
     CMD.addData(CMD.autoIncrement);
 }, 1000),
   //When the user enters a command, this is run to check if they typed anything, and if they did, submit it to CMD.runCommand().
@@ -56,6 +57,16 @@ var CMD = {
     CMD.data += amount;
     CMD.update();
   },
+  goals:[[20],["autoMine"],[false]],
+  checkGoal: function(){
+    for(var w=0;w<CMD.goals[0].length;w++){
+      if(CMD.data>=CMD.goals[0][w]&&CMD.goals[2][w]===false){
+        CMD.commandUnlocked[CMD.commandList.indexOf(CMD.goals[1][w])]=true;
+        CMD.goals[2][w]=true;
+        CMD.respond("Command unlocked: "+CMD.goals[1][w]);
+      }
+    }
+  },
   //LIST ALL COMMANDS HERE, OTHERWISE THEY WILL RETURN AS NOT EXISTING
   commandList: ["help", "mineData", "save", "autoMine"],
   //SET EACH FUNCTION TO WHETHER IT IS UNLOCKED
@@ -78,9 +89,13 @@ var CMD = {
       CMD.respond("Data mined.");
       CMD.addData(CMD.increment);
     },
+    autoMine: function(){
+      CMD.autoIncrement=1;
+    },
     save: function() {
       CMD.respond("TODO add save function");
     }
+    
   }
 };
 //Check if the Enter key was pressed
