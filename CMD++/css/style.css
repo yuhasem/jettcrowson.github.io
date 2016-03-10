@@ -41,3 +41,10 @@ button:focus {
 #dataCount{
   display:inline;
 }
+#version {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  margin-right: 50px;
+  font-family: "Courier New", "Courier", monospace;
+}
