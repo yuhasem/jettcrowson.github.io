@@ -6,7 +6,7 @@ TODO List:
 //All game values and functions will be stored here.
 var CMD = {
   //The currency variables
-  data: 19,
+  data: 0,
   money: 0,
   increment: 1,
   autoIncrement: 0,
