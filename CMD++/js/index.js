@@ -10,6 +10,10 @@ var CMD = {
   money: 0,
   increment: 1,
   autoIncrement: 0,
+  historyBufferEnabled: true,
+  historyBuffer: [],
+  historyBufferCurrentIdx: -1,
+	historyLastDirection: null,
   //Creates a new line in the CMD
   respond: function(text) {
     //Add a new table row, used as a line in the CMD
@@ -23,7 +27,17 @@ var CMD = {
   command: function() {
     if ($("#input").val() != "") {
       //Submit the command
-      CMD.runCommand($("#input").val());
+	  var command = $("#input").val();
+      CMD.runCommand(command);
+	  
+	  // Add command to history
+	  if (CMD.historyBufferEnabled){
+		  CMD.historyBuffer.unshift(command);
+		  if (CMD.historyBuffer.length > 10){ // Ensure we have a circular history
+			  CMD.historyBuffer.pop();
+		  }
+	  }
+	  
       //Reset the imput field
       $("#input").val("");
     }
@@ -102,9 +116,38 @@ var CMD = {
 $(document).keypress(function(e) {
   if (e.which == 13) {
     CMD.command();
+		CMD.historyBufferCurrentIdx = -1; // Reset history index
     $('#cmdWindow').scrollTop($('#cmdWindow')[0].scrollHeight);
   }
 });
+
+$('#input').keyup(function(e){
+	if (CMD.historyBufferEnabled && (e.which == 38 || e.which == 40)){ // Handling command history
+		var iCurrentBufferSize = CMD.historyBuffer.length;
+		var sSelectedCommand = '';
+		
+		if (e.which == 38){ // up = previous cmd in history
+			CMD.historyBufferCurrentIdx++;
+			if (CMD.historyBufferCurrentIdx > iCurrentBufferSize) CMD.historyBufferCurrentIdx = 0;
+			sSelectedCommand = CMD.historyBuffer[CMD.historyBufferCurrentIdx];
+			CMD.historyLastDirection = 'up';
+		}
+		if (e.which == 40){ // down = next cmd in history
+			CMD.historyBufferCurrentIdx--;
+			if (CMD.historyBufferCurrentIdx < 0) {
+				CMD.historyBufferCurrentIdx = -1; // Should empty the prompt
+				sSelectedCommand = '';
+			}
+			else {
+				sSelectedCommand = CMD.historyBuffer[CMD.historyBufferCurrentIdx];
+			}
+			CMD.historyLastDirection = 'down';
+		}
+		
+		$('#input').val(sSelectedCommand);
+	}
+})
+
 //Called when the user first enters the page. 
 $(document).ready(function() {
   CMD.respond("Welcome to CMD++");
