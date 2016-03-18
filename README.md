@@ -21,7 +21,7 @@ Welcome to CMD++. This game is still in extremely early development, so if anyth
 - Removed the auto unlocking of commands
 
 #####How you can help
-You can help by reading through the code and adding things from the Todos, but if you are unsure how to do this, I'll give a basic rundown:
+You can help by reading through the code and adding things from the Todos, formatting code, or adding comments! But if you are unsure how to do this, I'll give a basic rundown:
 
 The game is structured under an object called `CMD`. This means, to access any function, you must use `CMD.[function to use]`. This meanas this is also where you add your functions. The actual in-game functions are located under `CMD.commands.[function to use]`. Examples of these functions would be `CMD.commands.help`,  `CMD.commands.mineData`, etc. The exact commands a user types into the console in the game.
 
