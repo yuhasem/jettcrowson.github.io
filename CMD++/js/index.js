@@ -1,6 +1,6 @@
 /**
 TODO List:
-- Add different amounts of data depending on your upgrades
+- See the README
 **/
 //All game values and functions will be stored here.
 var CMD = {
@@ -14,7 +14,7 @@ var CMD = {
   historyLastDirection: null,
   unit: "byte",
   dataShow: 0,
-  b: 0,
+  b: 1023,
   //Creates a new line in the CMD
   respond: function(text) {
     //Add a new table row, used as a line in the CMD
@@ -50,7 +50,9 @@ var CMD = {
       CMD.respond("Command not found.");
       console.log("Command not found.");
     } else {
+      //Seperate the command and the argument
       var commandAndArgs = commandToRun.split(" ");
+      //Check if it exists
       if (CMD.commandList.indexOf(commandAndArgs[0]) === -1) {
         CMD.respond("Command not found.");
       } else {
@@ -89,6 +91,7 @@ var CMD = {
     CMD.b += amount;
     CMD.update();
   },
+  //Add money
   addMoney: function(amount) {
     CMD.money += amount;
     CMD.update();
@@ -100,6 +103,7 @@ var CMD = {
   //Command object stores all game functions, not the actual engine functions
   commands: {
     help: function(toHelp) {
+      //Check if help was passed with an argument or not. If it was, do the command specific help, otherwise do the command list generic help.
       if(toHelp!==undefined){
         switch(toHelp){
           case "help":
@@ -145,6 +149,7 @@ var CMD = {
       CMD.respond("########################################");
       CMD.respond("List of commands:");
       var availableCommands = [];
+      //Only view commands that are available under the CMD.commandUnlocked array
       for (var r = 0; r < CMD.commandList.length; r++) {
         if (CMD.commandUnlocked[r] === true) {
           availableCommands.push(CMD.commandList[r]);
@@ -165,10 +170,15 @@ var CMD = {
 
     buyCommand: function(toBuy) {
     if(toBuy!==undefined){
+      //Make sure that the command exists
       if(CMD.commands.goals[0].indexOf(toBuy)!==-1){
+        //Make sure it hasn't been unlocked already
         if(CMD.commands.goals[2][CMD.commands.goals[0].indexOf(toBuy)]!==true){
+          //Unlock the command under the CMD.commandUnlocked array
           CMD.commandUnlocked[CMD.commandList.indexOf(toBuy)]=true;
+          //Unlock the command so you can't buy it multiple times
           CMD.commands.goals[2][CMD.commands.goals[0].indexOf(toBuy)]=true;
+          //Spend data on unlocking this command
           CMD.b-=CMD.commands.goals[1][CMD.commands.goals[0].indexOf(toBuy)];
           CMD.respond("Command unlocked: "+toBuy);
         }else{
@@ -193,8 +203,10 @@ var CMD = {
     },
     //Buy data with money. Data cost $2 per 1 data
     buyData: function(amountToBuy) {
+      //For some reason the amount to buy was turning into a string, so I added Number() to convert it back
       Number(amountToBuy);
       if (amountToBuy !== undefined) {
+        //1 byte cost $2
         var cost = amountToBuy * 2;
         if (CMD.money >= cost && typeof amountToBuy !== "number") {
           CMD.money -= cost;
@@ -211,12 +223,16 @@ var CMD = {
     sellData: function(amount) {
       if (amount !== undefined) {
         Number(amount);
+        //You must sell at least 100, and you must have enough to sell
         if (CMD.b >= amount && CMD.b >= 100 && typeof amount !== "number") {
+          //Here is where we deteriorate the data. Too much? 
           var loss = Math.floor(Math.random() * 15 + 10);
           console.log(loss);
+          //Apply the loss to the total money received
           var transfer = Math.round(amount * (1 - loss / 100));
           CMD.money += transfer;
           CMD.b = CMD.b - amount;
+          //No idea what data integrity is but it sounded right.
           CMD.respond(loss + "% data integrity lost in transfer. Data sold: " +
             amount + ". Money gained: $" + transfer + ".");
         } else {
@@ -241,6 +257,7 @@ $(document).keypress(function(e) {
     $('#cmdWindow').scrollTop($('#cmdWindow')[0].scrollHeight);
   }
 });
+//Make the console act more like a real one by adding the arrow key up goes to the last command.
 $('#input').keyup(function(e) {
     if (CMD.historyBufferEnabled && (e.which == 38 || e.which == 40)) { // Handling command history
       var iCurrentBufferSize = CMD.historyBuffer.length;
