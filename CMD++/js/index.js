@@ -14,7 +14,7 @@ var CMD = {
   historyLastDirection: null,
   unit: "byte",
   dataShow: 0,
-  b: 1023,
+  b: 0,
   //Creates a new line in the CMD
   respond: function(text) {
     //Add a new table row, used as a line in the CMD
