@@ -15,6 +15,8 @@ var CMD = {
   unit: "byte",
   dataShow: 0,
   b: 1023,
+  //This will help us keep track of the time between ticks
+  lastTick: Date.now(),
   //Creates a new line in the CMD
   respond: function(text) {
     //Add a new table row, used as a line in the CMD
@@ -22,8 +24,13 @@ var CMD = {
       text + "</td></tr>");
   },
   gameLoop: setInterval(function() {
-    CMD.addData(CMD.autoIncrement);
-  }, 1000),
+	var newTick = Date.now();
+	//deltaSeconds is how much time has passed since we were last in this function
+	var deltaSeconds = (newTick - CMD.lastTick) / 1000;
+    CMD.addData(CMD.autoIncrement * deltaSeconds);
+	//Reset the last tick time
+	CMD.lastTick = newTick;
+  }, 100),
   //When the user enters a command, this is run to check if they typed anything, and if they did, submit it to CMD.runCommand().
   command: function() {
     if ($("#input").val() !== "") {
