@@ -181,13 +181,18 @@ var CMD = {
       if(CMD.commands.goals[0].indexOf(toBuy)!==-1){
         //Make sure it hasn't been unlocked already
         if(CMD.commands.goals[2][CMD.commands.goals[0].indexOf(toBuy)]!==true){
-          //Unlock the command under the CMD.commandUnlocked array
-          CMD.commandUnlocked[CMD.commandList.indexOf(toBuy)]=true;
-          //Unlock the command so you can't buy it multiple times
-          CMD.commands.goals[2][CMD.commands.goals[0].indexOf(toBuy)]=true;
-          //Spend data on unlocking this command
-          CMD.b-=CMD.commands.goals[1][CMD.commands.goals[0].indexOf(toBuy)];
-          CMD.respond("Command unlocked: "+toBuy);
+          //Make sure we have enough byes to buy its
+          if (CMD.commands.goals[1][CMD.commands.goals[0].indexOf(toBuy)] <= CMD.b){
+            //Unlock the command under the CMD.commandUnlocked array
+            CMD.commandUnlocked[CMD.commandList.indexOf(toBuy)]=true;
+            //Unlock the command so you can't buy it multiple times
+            CMD.commands.goals[2][CMD.commands.goals[0].indexOf(toBuy)]=true;
+            //Spend data on unlocking this command
+            CMD.b-=CMD.commands.goals[1][CMD.commands.goals[0].indexOf(toBuy)];
+            CMD.respond("Command unlocked: "+toBuy);
+          } else {
+            CMD.respond("Not enough data to purchase command '" + toBuy + "'.");
+          }
         }else{
           CMD.respond("Command already unlocked.");
         }
